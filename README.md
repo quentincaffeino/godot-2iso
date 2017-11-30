@@ -1,6 +1,7 @@
 Normal to isometric texture converter
 ===================
 
+![App screenshot](https://github.com/QuentinCaffeino/godot-2iso/blob/master/2isoScreenshot.png)
 
 #### **How to use**
 1. Clone project
