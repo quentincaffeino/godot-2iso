@@ -39,12 +39,14 @@ func _convert(argv):  # void
 
   # Create image
   var dst = Image.new()
+  var dstSize
   if _type == ImageClass.Dst.Top:
-    dst.create(_srcSize.y, xHalf, false, 5)
+    dstSize = Vector2(_srcSize.y, xHalf)
 
   elif _type == ImageClass.Dst.Left or _type == ImageClass.Dst.Right:
-    dst.create(yHalf + 1, _srcSize.x * 0.75, false, 5)
+    dstSize = Vector2(yHalf + 1, _srcSize.x * 0.75)
 
+  dst.create(dstSize.x, dstSize.y, false, 5)
   dst.lock()
 
   # Transform image
@@ -60,7 +62,9 @@ func _convert(argv):  # void
       elif _type == ImageClass.Dst.Right:
         pixelPos = Vector2(xHalf, y / 2) + _iso(_srcSize.x, x)
 
-      dst.set_pixel(pixelPos.x, pixelPos.y, _src.get_pixel(x, y))
+      if 0 <= pixelPos.x and pixelPos.x < dstSize.x:
+        if 0 <= pixelPos.y and pixelPos.y < dstSize.y:
+          dst.set_pixel(pixelPos.x, pixelPos.y, _src.get_pixel(x, y))
 
   # Return
   _readyCallback._convertionReady(_type, dst)
